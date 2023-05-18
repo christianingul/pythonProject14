@@ -9,7 +9,7 @@ from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 
 def create_agent(user_csv):
-    return create_csv_agent(OpenAI(openai_api_key=st.secrets["openai"]["key"],
+    return create_csv_agent(OpenAI(openai_api_key=st.secrets["openai_api_key"],
                                    temperature=0, model_name='gpt-3.5-turbo'), path=user_csv, verbose=True)
 
 def run_agent(agent, user_question):
@@ -48,7 +48,7 @@ def main():
     st.markdown('<h1 class="header">Ask your CSV</h1>', unsafe_allow_html=True)
 
     password = st.text_input("Enter password:", type="password")
-    if password != st.secrets["PASSWORD"]["password"]:
+    if password != st.secrets["password"]:
         st.stop()
 
     user_csv = st.file_uploader("Upload your CSV file", type="csv")
@@ -59,8 +59,6 @@ def main():
             st.write(f"Your question was: {user_question}")
             response = run_agent(agent, user_question)
             st.write(response)
-
-    st.markdown('<button class="button">Submit</button>', unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
