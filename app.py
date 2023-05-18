@@ -48,7 +48,7 @@ def main():
     st.markdown('<h1 class="header">Ask your CSV</h1>', unsafe_allow_html=True)
 
     password = st.text_input("Enter password:", type="password")
-    if password != st.secrets["password"]:
+    if password != st.secrets["PASSWORD"]["password"]:
         st.stop()
 
     user_csv = st.file_uploader("Upload your CSV file", type="csv")
