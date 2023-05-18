@@ -1,5 +1,10 @@
 
 import streamlit as st
+import subprocess
+
+# Install langchain
+subprocess.check_call(["pip", "install", "langchain"])
+
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 
