@@ -9,8 +9,11 @@ from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 
 def create_agent(user_csv):
-    return create_csv_agent(OpenAI(openai_api_key=st.secrets["openai_api_key"],
-                                   temperature=0, model_name='gpt-3.5-turbo'), path=user_csv, verbose=True)
+    return create_csv_agent(
+        OpenAI(openai_api_key=st.secrets["openai"]["key"],
+               temperature=0, model_name='gpt-3.5-turbo'),
+        path=user_csv, verbose=True
+    )
 
 def run_agent(agent, user_question):
     return agent.run(user_question)
