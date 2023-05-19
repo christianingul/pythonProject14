@@ -3,15 +3,19 @@ from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 
 def main():
-    # Apply CSS styling to the app
-    st.markdown(open("styles.css").read(), unsafe_allow_html=True)
-
     st.markdown('<h1 class="header">Ask your CSV</h1>', unsafe_allow_html=True)
+
+    # Add the link to the external CSS file
+    st.markdown(
+        """
+        <link href="styles.css" rel="stylesheet">
+        """,
+        unsafe_allow_html=True
+    )
 
     password = st.text_input("Enter password:", type="password")
     if password != st.secrets["PASSWORD"]["password"]:
-        st.error("Invalid password. Access denied.")
-        return
+        st.stop()
 
     user_csv = st.file_uploader("Upload your CSV file", type="csv")
     if user_csv is not None:
