@@ -14,25 +14,45 @@ def main():
         unsafe_allow_html=True
     )
 
+    password_secret = st.secrets.get("PASSWORD")
+    openai_secret = st.secrets.get("openai")
+
+    if password_secret is None or openai_secret is None:
+        st.error("Required secrets are missing. Please check your secrets configuration.")
+        st.stop()
+
     password = st.text_input("Enter password:", type="password")
-    if password != st.secrets["PASSWORD"]["password"]:
+    if password != password_secret.get("password"):
+        st.error("Invalid password. Access denied.")
         st.stop()
 
     user_csv = st.file_uploader("Upload your CSV file", type="csv")
     if user_csv is not None:
         user_question = st.text_input("Ask a question about your CSV:")
         agent = create_agent(user_csv)
+        if agent is None:
+            st.error("Failed to create the agent.")
+            st.stop()
+
         if user_question is not None and user_question != "":
             st.write(f"Your question was: {user_question}")
-            response = run_agent(agent, user_question)
-            st.write(response)
-            
-        st.write("Python version:", sys.version)
+            try:
+                response = run_agent(agent, user_question)
+                st.write(response)
+            except Exception as e:
+                st.error("An error occurred during agent execution.")
+                st.error(str(e))
+
+    st.write("Python version:", sys.version)
 
 def create_agent(user_csv):
+    openai_secret = st.secrets.get("openai")
+    if openai_secret is None:
+        return None
+
+    openai_api_key = openai_secret.get("key")
     return create_csv_agent(
-        OpenAI(openai_api_key=st.secrets["openai"]["key"],
-               temperature=0, model_name='gpt-3.5-turbo'),
+        OpenAI(openai_api_key=openai_api_key, temperature=0, model_name='gpt-3.5-turbo'),
         path=user_csv, verbose=True
     )
 
