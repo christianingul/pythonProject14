@@ -1,0 +1,22 @@
+body {
+    background-color: #F2F2F2;  /* Set a light gray background color */
+    font-family: Arial, sans-serif;  /* Use a clean sans-serif font */
+}
+
+.header {
+    font-size: 36px;
+    color: #008080;  /* Set a refreshing teal color */
+    padding: 16px;
+    text-align: center;
+}
+
+.button {
+    background-color: #008080;  /* Set a refreshing teal color */
+    color: #FFFFFF;  /* Set white text color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
