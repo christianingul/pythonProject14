@@ -1,3 +1,4 @@
+import sys
 import streamlit as st
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
@@ -25,6 +26,8 @@ def main():
             st.write(f"Your question was: {user_question}")
             response = run_agent(agent, user_question)
             st.write(response)
+            
+        st.write("Python version:", sys.version)
 
 def create_agent(user_csv):
     return create_csv_agent(
